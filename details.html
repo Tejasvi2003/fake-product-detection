@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
+    <script src="app.js"></script>
+  </head>
+  <body>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+    <script>
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      abi = [
+{
+  "inputs": [
+    {
+      "internalType": "uint32",
+      "name": "unique_id",
+      "type": "uint32"
+    },
+    {
+      "internalType": "string",
+      "name": "prod_name",
+      "type": "string"
+    }
+  ],
+  "name": "add_product_details",
+  "outputs": [],
+  "stateMutability": "nonpayable",
+  "type": "function"
+},
+{
+  "inputs": [
+    {
+      "internalType": "uint32",
+      "name": "product_id",
+      "type": "uint32"
+    },
+    {
+      "internalType": "address",
+      "name": "new_address",
+      "type": "address"
+    }
+  ],
+  "name": "transfer_owner_ship",
+  "outputs": [],
+  "stateMutability": "nonpayable",
+  "type": "function"
+},
+{
+  "inputs": [],
+  "stateMutability": "nonpayable",
+  "type": "constructor"
+},
+{
+  "inputs": [
+    {
+      "internalType": "uint32",
+      "name": "",
+      "type": "uint32"
+    }
+  ],
+  "name": "all_product_details",
+  "outputs": [
+    {
+      "internalType": "uint32",
+      "name": "unique_product_id",
+      "type": "uint32"
+    },
+    {
+      "internalType": "string",
+      "name": "product_name",
+      "type": "string"
+    },
+    {
+      "internalType": "address",
+      "name": "curr_owner_address",
+      "type": "address"
+    },
+    {
+      "internalType": "enum fakeProductDetection.owner_status",
+      "name": "curr_owner_state",
+      "type": "uint8"
+    }
+  ],
+  "stateMutability": "view",
+  "type": "function"
+},
+{
+  "inputs": [],
+  "name": "owner",
+  "outputs": [
+    {
+      "internalType": "address",
+      "name": "",
+      "type": "address"
+    }
+  ],
+  "stateMutability": "view",
+  "type": "function"
+}
+]
+
+
+  </script>
+  <br><br>
+    <div class="row" id="scan">
+        <div id="qr-reader" style="width: 600px">hi</div>
+    </div>
+    <div class="par-div">
+      <div class="div-m">
+        <form>
+          <div class="form-group row">
+            <label for="product_id" class="col-sm-4 col-form-label mb-2">Product ID : </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="product_id_c" placeholder="product id is inserted here">
+            </div>
+          </div>
+          <br>
+          <div class="form-group row">
+            <label for="product_name" class="col-sm-4 col-form-label mb-3">Product Name : </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="product_name_c" placeholder="enter receiver address">
+            </div>
+          </div>
+          <br>
+          <div class="form-group row">
+            <label for="product_id" class="col-sm-4 col-form-label mb-2">Current Owner Address : </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="owner_address" placeholder="product id is inserted here">
+            </div>
+          </div>
+          <br>
+          <div class="form-group row">
+            <label for="product_id" class="col-sm-4 col-form-label mb-2">Product Holder : </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="description" placeholder="product id is inserted here">
+            </div>
+          </div>
+          <br>
+          <br>
+        </form>
+      </div>
+    </div>
+    <script>
+      async function onScanSuccess(decodedText, decodedResult) {
+        var product_id = decodedResult.decodedText;
+        contract = new ethers.Contract("0xA772B128DA935B516D426b81E1F44CD13016f370",abi,provider);
+            res = await contract.all_product_details(product_id);
+            document.getElementById("product_id_c").value = res[0];
+            document.getElementById("product_name_c").value = res[1];
+            document.getElementById("owner_address").value = res[2];
+            if(res[3] == 0){
+              document.getElementById("description").value = "with manufacturer";
+            }else if(res[3] == 1){
+              document.getElementById("description").value = "with retailer";
+            }else{
+              document.getElementById("description").value = "with customer";
+            }
+
+            if(res[2] == "0x0000000000000000000000000000000000000000"){
+              alert("This Product Was Never Manufactured");
+              document.getElementById("description").value = "Never Manufactured";
+              document.getElementById("product_name_c").value = "Not Available";
+              document.getElementById("owner_address").value = "Not Available";
+            }
+      }
+      var html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", { fps: 10, qrbox: 250 });
+      html5QrcodeScanner.render(onScanSuccess);
+  </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+  </body>
+</html>

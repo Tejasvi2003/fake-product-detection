@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <script src="app.js"></script>
+  </head>
+  <body>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+    <script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
+
+    <script>
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        abi = [
+	{
+		"inputs": [
+			{
+				"internalType": "uint32",
+				"name": "unique_id",
+				"type": "uint32"
+			},
+			{
+				"internalType": "string",
+				"name": "prod_name",
+				"type": "string"
+			}
+		],
+		"name": "add_product_details",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint32",
+				"name": "product_id",
+				"type": "uint32"
+			},
+			{
+				"internalType": "address",
+				"name": "new_address",
+				"type": "address"
+			}
+		],
+		"name": "transfer_owner_ship",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint32",
+				"name": "",
+				"type": "uint32"
+			}
+		],
+		"name": "all_product_details",
+		"outputs": [
+			{
+				"internalType": "uint32",
+				"name": "unique_product_id",
+				"type": "uint32"
+			},
+			{
+				"internalType": "string",
+				"name": "product_name",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "curr_owner_address",
+				"type": "address"
+			},
+			{
+				"internalType": "enum fakeProductDetection.owner_status",
+				"name": "curr_owner_state",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
+ 
+      async function insertIntoBlockChain(){
+        event.preventDefault();
+        ui = document.getElementById("product_id").value;
+        un = document.getElementById("product_name").value;
+ 
+        contract = new ethers.Contract("0xA772B128DA935B516D426b81E1F44CD13016f370",abi,signer);
+        res = await contract.add_product_details(ui,un);
+        console.log(res);
+ 
+        hash = res["hash"];
+        console.log(hash);
+        alert_message = "data inserted into blockchain sucessfully \n transaction hash :"+ hash;
+        alert(alert_message);
+ 
+      }
+      async function transferOwnerShip(){
+        event.preventDefault()
+        ui = document.getElementById("t-a").value;
+        ua = document.getElementById("t-d").value;
+
+        contract = new ethers.Contract("0xA772B128DA935B516D426b81E1F44CD13016f370",abi,signer);
+        res = await contract.transfer_owner_ship(ui,ua);
+        console.log(res);
+ 
+     }
+ 
+    </script>
+    <div class="par-div">
+      <div class="div-m">
+        <form>
+          <div class="form-group row">
+            <label for="product_id" class="col-sm-4 col-form-label mb-2">Enter Unique Product ID : </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="product_id" placeholder="enter unique code">
+            </div>
+          </div>
+          <br>
+          <div class="form-group row">
+            <label for="product_name" class="col-sm-4 col-form-label mb-3">Enter Product Name : </label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="product_name" placeholder="enter product name">
+            </div>
+          </div>
+          <br>
+          <div class="form-group row">
+            <div class="col-sm-10">
+              <button type="submit" onclick="generateQR()" class="btn btn-primary">Generate QR</button>
+            </div>
+          </div>
+          <br>
+          <div class="form-group row">
+            <div class="col-sm-10">
+              <button type="submit" onclick="connectToWallet()" class="btn btn-primary">Connect Wallet</button>
+            </div>
+          </div>
+          <br>
+          <div class="form-group row">
+            <div class="col-sm-10">
+              <button type="submit" onclick="insertIntoBlockChain()" class="btn btn-primary">Add Product to BlockChain</button>
+            </div>
+          </div>
+        </form>
+        <br>
+        <div class="row">
+          <div class="col text-center">
+            <img src="" id="qr-img" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+  </body>
+</html>
