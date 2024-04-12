@@ -8,6 +8,52 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
     <script src="app.js"></script>
+    <style>
+      .navbar {
+        background-color: #141f36 !important; /* Fill navigation bar with color #141f36 */
+      }
+      .navbar-nav .nav-link {
+        color: #f6faf9 !important; /* Set text color to #f6faf9 */
+      }
+      .bg-dark {
+        background-color:#141f36 !important; 
+        color: #f6faf9 !important;
+        margin: 20px;
+      }
+      .img-style {
+        height: 20px;
+        margin-right: 10px; /* Add margin-right for spacing */
+        margin-top: -5px; /* Adjust margin-top to align with text */
+        margin-left: 25px;
+      }
+      .heading-text {
+        color: #f6faf9 !important;
+        font-size: 24px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      }
+      .btn {
+        background-color: #314661;
+        color: #f6faf9;
+      }
+      .head-tittle {
+      margin-left: 2px;
+      margin-top: 5px;
+      
+      font-size: 16px;
+      color: #f6faf9; /* Adjust title color */
+    }
+    
+    #qr-reader {
+      width: 100%; /* Adjust width of QR reader container */
+    }
+    .par-div {
+    width: 90vw;
+    }
+    .heading{
+        padding-left: 50px;
+        margin-bottom: 20px;
+      }
+    </style>
   </head>
   <body>
     <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
@@ -107,37 +153,53 @@
 
 
   </script>
-  <br><br>
-    <div class="row" id="scan">
-        <div id="qr-reader" style="width: 600px">hi</div>
+  
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <img src="images/b.png" class="img-style" />
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <span class="head-tittle">BlissfulBytes</span>
+        </li>
+      </ul>
     </div>
-    <div class="par-div">
+  </nav>
+  
+    <div class="container m-0 p-0">
+      <h4 class="heading">Transfer Ownership of Product</h4>
+      <div class="row" id="scan">
+        <div id="qr-reader" style="width: 400px">hi</div>
+    </div>
+    <div class="par-div ">
       <div class="div-m">
         <form>
           <div class="form-group row">
-            <label for="product_id" class="col-sm-4 col-form-label mb-2">Product ID : </label>
-            <div class="col-sm-10">
+            <label for="product_id" class="col-sm-4 col-form-label">Product ID : </label>
+            <div class="col-sm-8">
               <input type="text" class="form-control" id="product_id_c" placeholder="product id is inserted here">
             </div>
           </div>
           <br>
           <div class="form-group row">
-            <label for="product_name" class="col-sm-4 col-form-label mb-3">Product Name : </label>
-            <div class="col-sm-10">
+            <label for="product_name" class="col-sm-4 col-form-label">Product Name : </label>
+            <div class="col-sm-8">
               <input type="text" class="form-control" id="product_name_c" placeholder="enter receiver address">
             </div>
           </div>
           <br>
           <div class="form-group row">
-            <label for="product_id" class="col-sm-4 col-form-label mb-2">Current Owner Address : </label>
-            <div class="col-sm-10">
+            <label for="product_id" class="col-sm-4 col-form-label">Current Owner Address : </label>
+            <div class="col-sm-8">
               <input type="text" class="form-control" id="owner_address" placeholder="product id is inserted here">
             </div>
           </div>
           <br>
           <div class="form-group row">
-            <label for="product_id" class="col-sm-4 col-form-label mb-2">Product Holder : </label>
-            <div class="col-sm-10">
+            <label for="product_id" class="col-sm-4 col-form-label">Product Holder : </label>
+            <div class="col-sm-8">
               <input type="text" class="form-control" id="description" placeholder="product id is inserted here">
             </div>
           </div>
@@ -148,8 +210,15 @@
             </div>
           </div>
           <br>
+          <div class="form-group row">
+            <div class="col-sm-10">
+              <a href="index.html" class="btn btn-secondary">Back</a>
+            </div>
+          </div>
+          <br>
         </form>
       </div>
+    </div>
     </div>
     <script>
       async function onScanSuccess(decodedText, decodedResult) {
