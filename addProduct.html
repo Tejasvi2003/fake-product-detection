@@ -146,6 +146,7 @@
   ]
 
   async function insertIntoBlockChain() {
+  try {
     event.preventDefault();
     ui = document.getElementById("product_id").value;
     un = document.getElementById("product_name").value;
@@ -156,9 +157,13 @@
 
     hash = res["hash"];
     console.log(hash);
-    alert_message = "data inserted into blockchain sucessfully \n transaction hash :" + hash;
+    alert_message = "data inserted into blockchain successfully \n transaction hash :" + hash;
     alert(alert_message);
+  } catch (error) {
+    console.error("Error:", error);
+    alert("An error occurred while interacting with the blockchain.");
   }
+}
   async function transferOwnerShip() {
     event.preventDefault()
     ui = document.getElementById("t-a").value;
