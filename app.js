@@ -8,6 +8,7 @@ function generateQR(){
 }
 
 async function connectToWallet(){
+    console.log("Hii Entered ");
     event.preventDefault();
     if(typeof window.ethereum !== undefined){
     acc = await ethereum.request({method:"eth_requestAccounts"});
