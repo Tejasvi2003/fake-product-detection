@@ -145,26 +145,30 @@
     }
   ]
 
-  async function insertIntoBlockChain() {
-    
+ async function insertIntoBlockChain() {
   try {
     event.preventDefault();
     ui = document.getElementById("product_id").value;
     un = document.getElementById("product_name").value;
-    console.log("Hello"+ui+un);
+    console.log("Hello" + ui + un);
     contract = new ethers.Contract("0xA772B128DA935B516D426b81E1F44CD13016f370", abi, signer);
     res = await contract.add_product_details(ui, un);
     console.log(res);
 
     hash = res["hash"];
     console.log(hash);
-    alert_message = "data inserted into blockchain successfully \n transaction hash :" + hash;
+    alert_message = "Data inserted into blockchain successfully. Transaction hash: " + hash;
     alert(alert_message);
   } catch (error) {
     console.error("Error:", error);
-    alert("Added To blockchain.");
+    if (error.code === -32603) {
+      alert("Internal JSON-RPC error: " + error.message);
+    } else {
+      alert("An error occurred while adding data to the blockchain. Please try again later.");
+    }
   }
 }
+
   async function transferOwnerShip() {
     event.preventDefault()
     ui = document.getElementById("t-a").value;
