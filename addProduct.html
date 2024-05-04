@@ -162,12 +162,17 @@
   } catch (error) {
     console.error("Error:", error);
     if (error.code === -32603) {
-      alert("Internal JSON-RPC error: " + error.message);
+      if (error.data && error.data.message) {
+        alert("Smart contract error: " + error.data.message);
+      } else {
+        alert("Smart contract execution failed: You are not authorized to perform this action.");
+      }
     } else {
       alert("An error occurred while adding data to the blockchain. Please try again later.");
     }
   }
 }
+
 
   async function transferOwnerShip() {
     event.preventDefault()
