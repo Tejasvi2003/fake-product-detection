@@ -231,9 +231,10 @@
         contract = new ethers.Contract("0xA772B128DA935B516D426b81E1F44CD13016f370",abi,provider);
         console.log("hello");
         let pid = parseInt(product_id);
+        let res;
         validateProductId(pid);
         try{
-          let res = await contract.all_product_details(pid);
+           res= await contract.all_product_details(pid);
         }
         catch(error)
         {
