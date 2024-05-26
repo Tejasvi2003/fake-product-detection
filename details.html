@@ -232,10 +232,14 @@
         console.log("hello");
         let pid = parseInt(product_id);
         validateProductId(pid);
-            res = await contract.all_product_details(pid);
-        console.log("res");
-         if (res[0] === 0) {
-            throw new Error("Product with ID " + productId + " does not exist");
+           try {
+        let res = await contract.all_product_details(pid);
+        console.log("Product details:", res);
+
+        if (res.unique_product_id === 0) {
+            console.log("Product with ID " + pid + " does not exist");
+            // Handle non-existent product ID
+            return;
         }
 
         console.log("res");
