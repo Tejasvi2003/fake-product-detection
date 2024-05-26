@@ -260,7 +260,11 @@
               document.getElementById("product_name_c").value = "Not Available";
               document.getElementById("owner_address").value = "Not Available";
             }
-      }
+      }}
+      catch (error) {
+        console.error("Error fetching product details:", error);
+        // Handle error gracefully
+    }
       var html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", { fps: 10, qrbox: 250 });
       html5QrcodeScanner.render(onScanSuccess);
   </script>
