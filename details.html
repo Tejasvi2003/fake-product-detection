@@ -214,13 +214,24 @@
     </div>
   </div>
     <script>
+      function validateProductId(productId) {
+    // Check if productId is a positive integer
+    if (!Number.isInteger(productId) || productId < 0) {
+        throw new Error("Invalid product ID: must be a positive integer");
+    }
+}
       async function onScanSuccess(decodedText, decodedResult) {
         var product_id = decodedResult.decodedText;
         console.log(product_id);
         console.log("hello");
         contract = new ethers.Contract("0xA772B128DA935B516D426b81E1F44CD13016f370",abi,provider);
         console.log("hello");
+        validateProductId(productId);
             res = await contract.all_product_details(product_id);
+         if (res[0] === 0) {
+            throw new Error("Product with ID " + productId + " does not exist");
+        }
+
         console.log("res");
             document.getElementById("product_id_c").value = res[0];
             document.getElementById("product_name_c").value = res[1];
