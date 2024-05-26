@@ -219,6 +219,9 @@
     if (!Number.isInteger(productId) || productId < 0) {
         throw new Error("Invalid product ID: must be a positive integer");
     }
+        else{
+          console.log("Entered valid number");
+      }
 }
       async function onScanSuccess(decodedText, decodedResult) {
         var product_id = decodedResult.decodedText;
