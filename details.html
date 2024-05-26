@@ -216,6 +216,7 @@
     <script>
       async function onScanSuccess(decodedText, decodedResult) {
         var product_id = decodedResult.decodedText;
+        console.log(product_id);
         contract = new ethers.Contract("0xA772B128DA935B516D426b81E1F44CD13016f370",abi,provider);
             res = await contract.all_product_details(product_id);
             document.getElementById("product_id_c").value = res[0];
