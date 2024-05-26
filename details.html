@@ -232,7 +232,13 @@
         console.log("hello");
         let pid = parseInt(product_id);
         validateProductId(pid);
-        let res = await contract.all_product_details(pid);
+        try{
+          let res = await contract.all_product_details(pid);
+        }
+        catch(error)
+        {
+          console.error("Contract call reverted:", error.message);
+        }
         console.log("Product details:", res);
 
         if (res.unique_product_id === 0) {
