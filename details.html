@@ -230,8 +230,9 @@
         console.log("hello");
         contract = new ethers.Contract("0xA772B128DA935B516D426b81E1F44CD13016f370",abi,provider);
         console.log("hello");
-        validateProductId(product_id);
-            res = await contract.all_product_details(product_id);
+        let pid = parseInt(product_id);
+        validateProductId(pid);
+            res = await contract.all_product_details(pid);
          if (res[0] === 0) {
             throw new Error("Product with ID " + productId + " does not exist");
         }
