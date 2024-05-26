@@ -235,6 +235,11 @@
         validateProductId(pid);
         try{
            res= await contract.all_product_details(pid);
+          if (res && res.unique_product_id === 0) {
+            console.log("Product with ID " + pid + " does not exist");
+            // Handle non-existent product ID
+            return;
+          }
         }
         catch(error)
         {
