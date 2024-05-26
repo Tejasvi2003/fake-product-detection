@@ -217,6 +217,7 @@
       function validateProductId(productId) {
     // Check if productId is a positive integer
     if (!Number.isInteger(productId) || productId < 0) {
+        console.log("error in productId"+productId);
         throw new Error("Invalid product ID: must be a positive integer");
     }
         else{
